@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Card } from "react-bootstrap";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 
 
 const ThankYouPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { width, height } = useWindowSize();
   const { name, cartItems, total } = location.state || { name: "", cartItems: [], total: 0 };
+  
+  // Prevent page scroll while this page is visible
+  useEffect(() => {
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, []);
 
   return (
-    <Container className="text-center py-5">
+    <div style={{ overflow: 'hidden',}}>
+    <Container className="text-center py-5" style={{ overflow: 'hidden' }}>
       {/* 🎆 Firecracker Confetti Effect */}
       <Confetti width={width} height={height} />
 
@@ -31,10 +45,11 @@ const ThankYouPage = () => {
         <h3 className="fw-bold mt-3">Total: ₹{total}</h3>
 
        <div className=''>
-         <Link to="/" className="btn btn-primary mt-4">Back to Home</Link>
+         <button type="button" className="btn btn-primary mt-4" onClick={() => navigate('/')}>Back to Home</button>
        </div>
       </Card>
     </Container>
+    </div>
   );
 };
 

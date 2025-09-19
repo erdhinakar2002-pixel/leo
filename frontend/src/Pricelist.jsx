@@ -1,361 +1,400 @@
 import { Container, Table, Row, Col, Card, Button } from 'react-bootstrap';
 import React, { useState } from "react";
+import Maqrquee from './Pages/Marquee'
+
 const crackerData = [
-{ category: "One Sound Crackers", items: [
-    { sNo: 1, name: "4\" Ganesh Mega Dlx Crackers", unit: "1 Pkt", price: 40 },
-    { sNo: 2, name: "4\" Gold Lakshmi Crackers", unit: "1 Pkt", price: 36 },
-    { sNo: 3, name: "4\" Dlx Lakshmi Crackers", unit: "1 Pkt", price: 25 },
-    { sNo: 4, name: "4\" Lakshmi Crackers", unit: "1 Pkt", price: 18 },
-    { sNo: 5, name: "3½\" Lakshmi Crackers", unit: "1 Pkt", price: 13 },
-    { sNo: 6, name: "2¾\" Kuruvi Crackers", unit: "1 Pkt", price: 10 },
-    { sNo: 7, name: "4\" Kuruvi Crackers", unit: "1 Pkt", price: 28 },
-    { sNo: 8, name: "2 Sound Crackers", unit: "1 Pkt", price: 32 },
-    { sNo: 9, name: "3 Sound Crackers", unit: "1 Pkt", price: 35 },
-  ]},
-  // SPARKLERS
-  { category: "Sparklers", items: [
-    { sNo: 10, name: "7cm Electric Sparklers", unit: "1 Box", price: 10 },
-    { sNo: 11, name: "7cm Colour Sparklers", unit: "1 Box", price: 12 },
-    { sNo: 12, name: "7cm Green Sparklers", unit: "1 Box", price: 19 },
-    { sNo: 13, name: "7cm Red Sparklers", unit: "1 Box", price: 20 },
-    { sNo: 14, name: "10cm Electric Sparklers", unit: "1 Box", price: 22 },
-    { sNo: 15, name: "10cm Colour Sparklers", unit: "1 Box", price: 25 },
-    { sNo: 16, name: "10cm Green Sparklers", unit: "1 Box", price: 29 },
-    { sNo: 17, name: "10cm Red Sparklers", unit: "1 Box", price: 33 },
-    { sNo: 18, name: "15cm Electric Sparklers", unit: "1 Box", price: 58 },
-    { sNo: 19, name: "15cm Colour Sparklers", unit: "1 Box", price: 64 },
-    { sNo: 20, name: "15cm Green Sparklers", unit: "1 Box", price: 73 },
-    { sNo: 21, name: "15cm Red Sparklers", unit: "1 Box", price: 68 },
-    { sNo: 22, name: "15cm Sona Sparklers", unit: "1 Box", price: 60 },
-    { sNo: 23, name: "15cm Super Mix Sparklers", unit: "1 Box", price: 75 },
-    { sNo: 24, name: "30cm Electric Sparklers", unit: "1 Box", price: 58 },
-    { sNo: 25, name: "30cm Colour Sparklers", unit: "1 Box", price: 64 },
-    { sNo: 26, name: "30cm Green Sparklers", unit: "1 Box", price: 73 },
-    { sNo: 27, name: "30cm Red Sparklers", unit: "1 Box", price: 68 },
-    { sNo: 28, name: "30cm Super Mix (Tube)", unit: "1 Tube", price: 80 },
-    { sNo: 29, name: "50cm Super Mix (Tube)", unit: "1 Tube", price: 200 },
-    { sNo: 30, name: "Dancing Umbrella (Rotating Sparklers)", unit: "1 Tube", price: 180 },
-  ]},
-  // FLOWER POTS
-  { category: "Flower Pots", items: [
-    { sNo: 31, name: "Flower Pots Big (10 Pcs)", unit: "1 Box", price: 70 },
-    { sNo: 32, name: "Flower Pots Special (10 Pcs)", unit: "1 Box", price: 140 },
-    { sNo: 33, name: "Flower Pots Ashoka (10 Pcs)", unit: "1 Box", price: 100 },
-    { sNo: 34, name: "Flower Pots Giant (10 Pcs)", unit: "1 Box", price: 225 },
-    { sNo: 35, name: "Flower Pots Deluxe (5 Pcs)", unit: "1 Box", price: 250 },
-    { sNo: 36, name: "Flower Pots Super Deluxe (10 Pcs)", unit: "1 Box", price: 550 },
-    { sNo: 37, name: "Colour Koti (10 Pcs)", unit: "1 Box", price: 200 },
-    { sNo: 38, name: "Colour Koti Deluxe (10 Pcs)", unit: "1 Box", price: 330 },
-    { sNo: 39, name: "Popye Tri Colour Pots (5 Pcs)", unit: "1 Box", price: 220 },
-  ]},
-
   {
-  category: "Ground Chakkar",
-  items: [
-    { sNo: 40, name: "Ground Chakkar Big (10 Pcs)", unit: "1 Box", price: 40 },
-    { sNo: 41, name: "Ground Chakkar Ashoka (10 Pcs)", unit: "1 Box", price: 60 },
-    { sNo: 42, name: "Ground Chakkar Special (10 Pcs)", unit: "1 Box", price: 70 },
-    { sNo: 43, name: "Ground Chakkar Deluxe (10 Pcs)", unit: "1 Box", price: 140 },
-    { sNo: 44, name: "Ground Chakkar Super Deluxe (10 Pcs)", unit: "1 Box", price: 200 },
-  ]},
-  // ... Continue for Ground Chakkar, Rocket, Bomb, Bijili, Peacock, Kid’s Special, etc. (see PDF[1])
-  // Example for next category:
-  { category: "Rocket", items: [
-    { sNo: 48, name: "Rocket Bomb (10 Pcs)", unit: "1 Box", price: 60 },
-    { sNo: 49, name: "Colour Rocket (10 Pcs)", unit: "1 Box", price: 60 },
-    { sNo: 50, name: "Lunik Rocket (10 Pcs)", unit: "1 Box", price: 120 },
-    { sNo: 51, name: "Whistling Rocket (5 Pcs)", unit: "1 Box", price: 100 },
-    { sNo: 52, name: "Whistling Rocket (10 Pcs)", unit: "1 Box", price: 200 },
-  ]},
-{
-  category: "Bomb Items",
-  items: [
-    { sNo: 53, name: "Hydro Bomb (10 Pcs)", unit: "1 Box", price: 70 },
-    { sNo: 54, name: "King Bomb (10 Pcs)", unit: "1 Box", price: 100 },
-    { sNo: 55, name: "Classic Bomb (10 Pcs)", unit: "1 Box", price: 120 },
-    { sNo: 56, name: "Digital Bomb (10 Pcs)", unit: "1 Box", price: 220 },
-    { sNo: 57, name: "Paper Bomb 1/4 kg", unit: "1 Box", price: 45 },
-  ]
-},
-{
-  category: "Bijili Crackers",
-  items: [
-    { sNo: 58, name: "Red Bijili Crackers (100 Pcs)", unit: "1 Bag", price: 54 },
-    { sNo: 59, name: "Stripped Bijili Crackers (100 Pcs)", unit: "1 Bag", price: 54 },
-    { sNo: 60, name: "Red Bijili Crackers (50 Pcs)", unit: "1 Bag", price: 30 },
-  ]
-},
-{
-  category: "Kids Torches",
-  items: [
-    { sNo: 61, name: "Sea Laser Red (3 Pcs)", unit: "1 Box", price: 135 },
-    { sNo: 62, name: "Sea Laser Green (3 Pcs)", unit: "1 Box", price: 130 },
-    { sNo: 63, name: "Hi Light (3 Pcs)", unit: "1 Box", price: 170 },
-    { sNo: 64, name: "Water Light (3 Pcs)", unit: "1 Box", price: 170 },
-    { sNo: 65, name: "Star Light (3 Pcs)", unit: "1 Box", price: 170 },
-    { sNo: 66, name: "Fire Light (3 Pcs)", unit: "1 Box", price: 170 },
-    { sNo: 67, name: "Waterfall Pencil (5 Pcs)", unit: "1 Box", price: 210 },
-    { sNo: 68, name: "Popcorn Pencil (5 Pcs)", unit: "1 Box", price: 210 },
-    { sNo: 69, name: "Bazooka (2 Pcs)", unit: "1 Box", price: 280 },
-    { sNo: 70, name: "Tornado (2 Pcs)", unit: "1 Box", price: 280 },
-    { sNo: 71, name: "Short Gun M1887", unit: "1 Box", price: 210 },
-  ]
-},
-{
-  category: "Siren",
-  items: [
-    { sNo: 72, name: "Saxony Mini Siren (2 Pcs)", unit: "1 Box", price: 65 },
-    { sNo: 73, name: "Whistle Podu (5 Pcs)", unit: "1 Box", price: 130 },
-    { sNo: 74, name: "Big Siren (3 Pcs)", unit: "1 Box", price: 220 },
-  ]
-},
-{
-  category: "Peacock",
-  items: [
-    { sNo: 75, name: "Belly Dance Red Peacock", unit: "1 Box", price: 180 },
-    { sNo: 76, name: "Belly Dance Green Peacock", unit: "1 Box", price: 180 },
-    { sNo: 77, name: "Belly Dance Silver Peacock", unit: "1 Box", price: 180 },
-    { sNo: 78, name: "Belly Dance Gold Peacock", unit: "1 Box", price: 180 },
-    { sNo: 79, name: "Magic Peacock Red & Green", unit: "1 Box", price: 180 },
-    { sNo: 80, name: "Dhandiya Peacock", unit: "1 Box", price: 450 },
-  ]},
+    "category": "ONE SOUND CRACKERS",
+    "items": [
+      { "sNo": 1, "name": "4\" Ganesh Mega Dlx Crackers", "unit": "1 Box", "price": 50 },
+      { "sNo": 2, "name": "4\" Gold Lakshmi Crackers", "unit": "1 Box", "price": 53 },
+      { "sNo": 3, "name": "4\" Dlx Lakshmi Crackers", "unit": "1 Box", "price": 101 },
+      { "sNo": 4, "name": "4\" Lakshmi Crackers", "unit": "1 Box", "price": 29 },
+      { "sNo": 5, "name": "3 1/2\" Lakshmi Crackers", "unit": "1 Box", "price": 22 },
+      { "sNo": 6, "name": "2 3/3\" Kuruvi Crackers", "unit": "1 Box", "price": 29 },
+      { "sNo": 7, "name": "4\" Kuruvi Crackers", "unit": "1 Box", "price": 367 },
+      { "sNo": 8, "name": "5\" Hulk Crackers", "unit": "1 Box", "price": 115 },
+      { "sNo": 9, "name": "2 Sound Crackers", "unit": "1 Box", "price": 58 },
+      { "sNo": 10, "name": "3 Sound Crackers", "unit": "1 Box", "price": 197 }
+    ]
+  },
+  {
+    "category": "SPARKLERS",
+    "items": [
+      { "sNo": 11, "name": "7 cm Electric Sparklers", "unit": "1 Box", "price": 29 },
+      { "sNo": 12, "name": "7 cm Colour Sparklers", "unit": "1 Box", "price": 17 },
+      { "sNo": 13, "name": "7 cm Green Sparklers", "unit": "1 Box", "price": 46 },
+      { "sNo": 14, "name": "7 cm Red Sparklers", "unit": "1 Box", "price": 24 },
+      { "sNo": 15, "name": "10 cm Electric Sparklers", "unit": "1 Box", "price": 26 },
+      { "sNo": 16, "name": "10 cm Colour Sparklers", "unit": "1 Box", "price": 30 },
+      { "sNo": 17, "name": "10 cm Green Sparklers", "unit": "1 Box", "price": 35 },
+      { "sNo": 18, "name": "10 cm Red Sparklers", "unit": "1 Box", "price": 39 },
+      { "sNo": 19, "name": "Rainbow Sparklers (50 pcs)", "unit": "1 Box", "price": 211 },
+      { "sNo": 20, "name": "15 cm Electric Sparklers", "unit": "1 Box", "price": 70 },
+      { "sNo": 21, "name": "15 cm Colour Sparklers", "unit": "1 Box", "price": 77 },
+      { "sNo": 22, "name": "15 cm Green Sparklers", "unit": "1 Box", "price": 88 },
+      { "sNo": 23, "name": "15 cm Red Sparklers", "unit": "1 Box", "price": 82 },
+      { "sNo": 24, "name": "15 cm Sona Sparklers", "unit": "1 Box", "price": 74 },
+      { "sNo": 25, "name": "15 cm Super Mix Sparklers", "unit": "1 Box", "price": 74 },
+      { "sNo": 26, "name": "15 cm Super Mix tube (30 pcs)", "unit": "1 Box", "price": 470 },
+      { "sNo": 27, "name": "15 cm American Diamonds Sparklers", "unit": "1 Box", "price": 74 },
+      { "sNo": 28, "name": "30 cm Electric Sparklers", "unit": "1 Box", "price": 130 },
+      { "sNo": 29, "name": "30 cm Colour Sparklers", "unit": "1 Box", "price": 77 },
+      { "sNo": 30, "name": "30 cm Green Sparklers", "unit": "1 Box", "price": 88 },
+      { "sNo": 31, "name": "30 cm Red Sparklers", "unit": "1 Box", "price": 165 },
+      { "sNo": 32, "name": "30 cm Super Mix Tube", "unit": "1 Box", "price": 165 },
+      { "sNo": 33, "name": "50 cm Super Mix Tube", "unit": "1 Box", "price": 240 }
+    ]
+  },
+  {
+    "category": "CHAKKARS",
+    "items": [
+      { "sNo": 34, "name": "Merry Go Round Sparklers", "unit": "1 Box", "price": 456 },
+      { "sNo": 35, "name": "Metro Ground Chakkar Big (10 pcs)", "unit": "1 Box", "price": 125 },
+      { "sNo": 36, "name": "Metro Ground Chakkar Big (25 pcs)", "unit": "1 Box", "price": 288 },
+      { "sNo": 37, "name": "Metro Ground Chakkar Ashoka (10 pcs)", "unit": "1 Box", "price": 178 },
+      { "sNo": 38, "name": "Metro Ground Chakkar Special (10 pcs)", "unit": "1 Box", "price": 120 },
+      { "sNo": 39, "name": "Hayagrivar Ground Chakkar Spinner (10 Pcs)", "unit": "1 Box", "price": 187 }
+    ]
+  },
+  {
+    "category": "FANCY WHEELS",
+    "items": [
+      { "sNo": 40, "name": "Sunflower Wheel (5 pcs)", "unit": "1 Box", "price": 120 },
+      { "sNo": 41, "name": "Honeybee Wheel (5 pcs)", "unit": "1 Box", "price": 108 },
+      { "sNo": 42, "name": "Ayyan Lotus Wheel", "unit": "1 Box", "price": 216 },
+      { "sNo": 43, "name": "Ayyan Rio Wheel Pink", "unit": "1 Box", "price": 276 },
+      { "sNo": 44, "name": "Wire Chakkar (10 pcs)", "unit": "1 Box", "price": 216 },
+      { "sNo": 45, "name": "Whistling Wheel (10 pcs)", "unit": "1 Box", "price": 192 },
+      { "sNo": 46, "name": "Ayyan Zodiac Spinner", "unit": "1 Box", "price": 252 },
+      { "sNo": 47, "name": "Ayyan Cocktail Spinner", "unit": "1 Box", "price": 89 }
+    ]
+  },
+  {
+    "category": "FOUNTAINS",
+    "items": [
+      { "sNo": 48, "name": "Hayagrivar Flowerpots Big (10 pcs)", "unit": "1 Box", "price": 103 },
+      { "sNo": 49, "name": "Hayagrivar Flowerpots Special (10 pcs)", "unit": "1 Box", "price": 132 },
+      { "sNo": 50, "name": "Hayagrivar Flowerpots Giant (10 pcs)", "unit": "1 Box", "price": 199 },
+      { "sNo": 51, "name": "Hayagrivar Flowerpots Colour Koti (10 pcs)", "unit": "1 Box", "price": 300 },
+      { "sNo": 52, "name": "Varshini Colour Koti Pink (10 pcs)", "unit": "1 Box", "price": 600 },
+      { "sNo": 53, "name": "Metro Colour Koti DLX (10 pcs)", "unit": "1 Box", "price": 1080 },
+      { "sNo": 54, "name": "Metro Mega Colour Koti Super DLX (10 pcs)", "unit": "1 Box", "price": 840 },
+      { "sNo": 55, "name": "Lassi (5 pcs)", "unit": "1 Box", "price": 156 },
+      { "sNo": 56, "name": "Tricolour Pots (5 pcs)", "unit": "1 Box", "price": 348 },
+      { "sNo": 57, "name": "Mayajal 5 in 1 (5 pcs)", "unit": "1 Box", "price": 696 },
+      { "sNo": 58, "name": "Ayyan Jadugar (4 pcs)", "unit": "1 Box", "price": 420 },
+      { "sNo": 59, "name": "Ayyan Purple Dove", "unit": "1 Box", "price": 192 },
+      { "sNo": 60, "name": "Ayyan Fire Drops", "unit": "1 Box", "price": 96 },
+      { "sNo": 61, "name": "Ayyan Snow Patrol", "unit": "1 Box", "price": 192 },
+      { "sNo": 62, "name": "Ayyan Lemon Tree Yellow", "unit": "1 Box", "price": 360 },
+      { "sNo": 63, "name": "Ayyan Lemon Tree Purple", "unit": "1 Box", "price": 360 },
+      { "sNo": 64, "name": "Ayyan Lemon Tree Silver", "unit": "1 Box", "price": 360 },
+      { "sNo": 65, "name": "Ayyan Lemon Tree Amber", "unit": "1 Box", "price": 360 }
+    ]
+  },
+  {
+    "category": "TWINKLING STARS",
+    "items": [
+      { "sNo": 66, "name": "1 1/2\" Twinkling Stars", "unit": "1 Box", "price": 46 },
+      { "sNo": 67, "name": "4\" Twinkling Stars", "unit": "1 Box", "price": 216 },
+      { "sNo": 68, "name": "Iron Man (10 pcs)", "unit": "1 Box", "price": 180 }
+    ]
+  },
+  {
+    "category": "TORCHES",
+    "items": [
+      { "sNo": 69, "name": "10\" Metro Pencil", "unit": "1 Box", "price": 103 },
+      { "sNo": 70, "name": "Sea Laser Red/Green", "unit": "1 Box", "price": 168 },
+      { "sNo": 71, "name": "Cascade Torch", "unit": "1 Box", "price": 180 },
+      { "sNo": 72, "name": "Chikoo/Bunty", "unit": "1 Box", "price": 528 },
+      { "sNo": 73, "name": "Popcorn/Waterfalls", "unit": "1 Box", "price": 576 },
+      { "sNo": 74, "name": "Multicolour Smoke (3 pcs)", "unit": "1 Box", "price": 456 }
+    ]
+  },
+  {
+    "category": "BOMBS",
+    "items": [
+      { "sNo": 75, "name": "Sholay Bomb", "unit": "1 Box", "price": 72 },
+      { "sNo": 76, "name": "Hydro Bomb", "unit": "1 Box", "price": 96 },
+      { "sNo": 77, "name": "King Bomb", "unit": "1 Box", "price": 259 },
+      { "sNo": 78, "name": "Classic Bomb", "unit": "1 Box", "price": 3 },
+      { "sNo": 79, "name": "Agni Bomb", "unit": "1 Box", "price": 216 },
+      { "sNo": 80, "name": "Digital Bomb", "unit": "1 Box", "price": 264 },
+      { "sNo": 81, "name": "Paper Bomb 1 1/4\" kg", "unit": "1 Box", "price": 54 },
+      { "sNo": 82, "name": "Paper Bomb (10 pcs)", "unit": "1 Box", "price": 1080 }
+    ]
+  },
+  {
+    "category": "BIJILI CRACKERS",
+    "items": [
+      { "sNo": 83, "name": "Red Bijili (50 pcs)", "unit": "1 Box", "price": 26 },
+      { "sNo": 84, "name": "Red Bijili (100 pcs)", "unit": "1 Box", "price": 60 },
+      { "sNo": 85, "name": "Stripped Bijili (100 pcs)", "unit": "1 Box", "price": 65 }
+    ]
+  },
+  {
+    "category": "ROCKETS",
+    "items": [
+      { "sNo": 86, "name": "Rocket Bomb (10 pcs)", "unit": "1 Box", "price": 168 },
+      { "sNo": 87, "name": "Lunik Rocket (10 pcs)", "unit": "1 Box", "price": 144 },
+      { "sNo": 88, "name": "Whistling Rocket (10 pcs)", "unit": "1 Box", "price": 264 },
+      { "sNo": 89, "name": "Ayyan Akash Thoran", "unit": "1 Box", "price": 276 },
+      { "sNo": 90, "name": "Ayyan Sky Diver", "unit": "1 Box", "price": 582 }
+    ]
+  },
+  {
+    "category": "MONEY BOMB",
+    "items": [
+      { "sNo": 91, "name": "Lucky Money (3 pcs)", "unit": "1 Box", "price": 252 },
+      { "sNo": 92, "name": "Mankatha (5 pcs)", "unit": "1 Box", "price": 288 }
+    ]
+  },
+  {
+    "category": "FANCY NOVELTIES",
+    "items": [
+      { "sNo": 93, "name": "Kit Kat (10 pcs)", "unit": "1 Box", "price": 29 },
+      { "sNo": 94, "name": "Jurassic Colour (10 pcs)", "unit": "1 Box", "price": 46 },
+      { "sNo": 95, "name": "Panda (10 pcs)", "unit": "1 Box", "price": 83 },
+      { "sNo": 96, "name": "Asarafi Big (5 pcs)", "unit": "1 Box", "price": 84 },
+      { "sNo": 97, "name": "Electric Stone (10 pcs)", "unit": "1 Box", "price": 24 },
+      { "sNo": 98, "name": "Assorted Cartoons (10 pcs)", "unit": "1 Box", "price": 36 },
+      { "sNo": 99, "name": "Snake Cartoons (10 pcs)", "unit": "1 Box", "price": 48 },
+      { "sNo": 100, "name": "Multi-shower 5in1 (5 pcs)", "unit": "1 Box", "price": 132 },
+      { "sNo": 101, "name": "Coco Colour Shower (5 pcs)", "unit": "1 Box", "price": 156 },
+      { "sNo": 102, "name": "Colour Falls (5 pcs)", "unit": "1 Box", "price": 156 },
+      { "sNo": 103, "name": "Magic Gold (5 pcs)", "unit": "1 Box", "price": 156 },
+      { "sNo": 104, "name": "Peacock Feather Gold (5 pcs)", "unit": "1 Box", "price": 156 },
+      { "sNo": 105, "name": "Photoflash (5 pcs)", "unit": "1 Box", "price": 72 },
+      { "sNo": 106, "name": "Googly 5in1 (5 pcs)", "unit": "1 Box", "price": 241 },
+      { "sNo": 107, "name": "Deccan Chargers (5 pcs)", "unit": "1 Box", "price": 190 },
+      { "sNo": 108, "name": "Mini Siren (5 pcs)", "unit": "1 Box", "price": 180 },
+      { "sNo": 109, "name": "Big Siren (3 pcs)", "unit": "1 Box", "price": 264 },
+      { "sNo": 110, "name": "Crackling Fountain (3 pcs)", "unit": "1 Box", "price": 92 },
+      { "sNo": 111, "name": "Top Gun (5 pcs)", "unit": "1 Box", "price": 336 },
+      { "sNo": 112, "name": "Drone (5 pcs)", "unit": "1 Box", "price": 288 },
+      { "sNo": 113, "name": "Helicopter (5 pcs)", "unit": "1 Box", "price": 182 },
+      { "sNo": 114, "name": "Butterfly (10 pcs)", "unit": "1 Box", "price": 120 },
+      { "sNo": 115, "name": "Bambara (10 pcs)", "unit": "1 Box", "price": 120 },
+      { "sNo": 116, "name": "Candy Crush", "unit": "1 Box", "price": 386 }
+    ]
+  },
+  {
+    "category": "3\" & 4\" COLOURFUL NOVELTIES",
+    "items": [
+      { "sNo": 117, "name": "Red Apple (5 pcs)", "unit": "1 Box", "price": 240 },
+      { "sNo": 118, "name": "Carnival Funfair (5 pcs)", "unit": "1 Box", "price": 240 },
+      { "sNo": 119, "name": "Mr. Big (5 pcs)", "unit": "1 Box", "price": 240 },
+      { "sNo": 120, "name": "Tooty Frooty (5 pcs)", "unit": "1 Box", "price": 240 },
+      { "sNo": 121, "name": "Bingo Music (5 pcs)", "unit": "1 Box", "price": 480 },
+      { "sNo": 122, "name": "Party Time (5 pcs)", "unit": "1 Box", "price": 240 },
+      { "sNo": 123, "name": "Honey Comb (5 pcs)", "unit": "1 Box", "price": 216 },
+      { "sNo": 124, "name": "Paris Tower (5 pcs)", "unit": "1 Box", "price": 216 },
+      { "sNo": 125, "name": "Genie (5 pcs)", "unit": "1 Box", "price": 216 },
+      { "sNo": 126, "name": "Buddy (5 pcs)", "unit": "1 Box", "price": 216 },
+      { "sNo": 127, "name": "Hot Show 5in1 (5 pcs)", "unit": "1 Box", "price": 600 },
+      { "sNo": 128, "name": "4\" Crackling Tin", "unit": "1 Box", "price": 386 }
+    ]
+  },
+  {
+    "category": "PEACOCK",
+    "items": [
+      { "sNo": 129, "name": "Small Peacock", "unit": "1 Box", "price": 168 },
+      { "sNo": 130, "name": "Magic Peacock", "unit": "1 Box", "price": 240 },
+      { "sNo": 131, "name": "Ayyan Golden Dawn", "unit": "1 Box", "price": 300 },
+      { "sNo": 132, "name": "Smoke Peacock", "unit": "1 Box", "price": 240 },
+      { "sNo": 133, "name": "Spooky", "unit": "1 Box", "price": 540 },
+      { "sNo": 134, "name": "Bada Peacock", "unit": "1 Box", "price": 588 }
+    ]
+  },
+  {
+    "category": "SKY SHOTS",
+    "items": [
+      { "sNo": 135, "name": "7 Shots (5 pcs)", "unit": "1 Box", "price": 192 },
+      { "sNo": 136, "name": "ARD Sky Shots (10 pcs)", "unit": "1 Box", "price": 96 },
+      { "sNo": 137, "name": "Astro Boy (5 pcs)", "unit": "1 Box", "price": 180 },
+      { "sNo": 138, "name": "Force Mix (2 pcs)", "unit": "1 Box", "price": 96 },
+      { "sNo": 139, "name": "Penta Dhamaka (5 pcs)", "unit": "1 Box", "price": 216 }
+    ]
+  },
+  {
+    "category": "AERIAL SHELLS",
+    "items": [
+      { "sNo": 140, "name": "1\" Chota fancy", "unit": "1 Box", "price": 60 },
+      { "sNo": 141, "name": "2\" Aerial Out", "unit": "1 Box", "price": 168 },
+      { "sNo": 142, "name": "1 3/4\" Aerial Out (3 pcs)", "unit": "1 Box", "price": 384 },
+      { "sNo": 143, "name": "2\" Aerial Out (3 pcs)", "unit": "1 Box", "price": 480 },
+      { "sNo": 144, "name": "3 1/2\" Aerial Out", "unit": "1 Box", "price": 360 },
+      { "sNo": 145, "name": "4\" Aerial Out", "unit": "1 Box", "price": 456 },
+      { "sNo": 146, "name": "4\" Aerial Out Double Ball", "unit": "1 Box", "price": 540 },
+      { "sNo": 147, "name": "4\" Aerial Out (2 pcs)", "unit": "1 Box", "price": 960 },
+      { "sNo": 148, "name": "4\" Niagara Falls", "unit": "1 Box", "price": 504 },
+      { "sNo": 149, "name": "4\" Ayyan Violet Dance", "unit": "1 Box", "price": 720 },
+      { "sNo": 150, "name": "4\" Ayyan Baby Pink", "unit": "1 Box", "price": 720 },
+      { "sNo": 151, "name": "5\" Aerial Out", "unit": "1 Box", "price": 948 },
+      { "sNo": 152, "name": "6\" Sonny Pyro Barbie", "unit": "1 Box", "price": null },
+      { "sNo": 153, "name": "6\" Sonny Bumble Bee", "unit": "1 Box", "price": null }
+    ]
+  },
+  {
+    "category": "REPEATING SHOTS",
+    "items": [
+      { "sNo": 154, "name": "12 Shots Rider", "unit": "1 Box", "price": 240 },
+      { "sNo": 155, "name": "12 Shots Colour", "unit": "1 Box", "price": 216 },
+      { "sNo": 156, "name": "15 Shots Multicolour", "unit": "1 Box", "price": 348 },
+      { "sNo": 157, "name": "25 Shots Crackling", "unit": "1 Box", "price": 360 },
+      { "sNo": 158, "name": "30 Shots Normal", "unit": "1 Box", "price": 540 },
+      { "sNo": 159, "name": "30 Shots Peacock Dance", "unit": "1 Box", "price": 600 },
+      { "sNo": 160, "name": "30 Shots Multicolour Crackling", "unit": "1 Box", "price": 660 },
+      { "sNo": 161, "name": "60 Shots Normal", "unit": "1 Box", "price": 1080 },
+      { "sNo": 162, "name": "60 Shots Multicolour Crackling", "unit": "1 Box", "price": 1320 },
+      { "sNo": 163, "name": "100 Shots Multicolour Crackling", "unit": "1 Box", "price": 2640 },
+      { "sNo": 164, "name": "120 Shots Multicolour Crackling", "unit": "1 Box", "price": 2760 },
+      { "sNo": 165, "name": "240 Shots Multicolour Crackling", "unit": "1 Box", "price": 4560 }
+    ]
+  },
+  {
+    "category": "MEGA CELEBRATION",
+    "items": [
+      { "sNo": 166, "name": "Aura 5X10 Queen Stars", "unit": "1 Box", "price": 660 },
+      { "sNo": 167, "name": "Aura 10X10 Fun Cake", "unit": "1 Box", "price": 1740 },
+      { "sNo": 168, "name": "Liya 10X10 Sizzling", "unit": "1 Box", "price": 2100 },
+      { "sNo": 169, "name": "Liya 10X10 Taillight", "unit": "1 Box", "price": 2700 },
+      { "sNo": 170, "name": "Liya 10X10 Lights of Thunder", "unit": "1 Box", "price": 3200 }
+    ]
+  },
+  {
+    "category": "SET OUTS",
+    "items": [
+      { "sNo": 171, "name": "2\" 20 Set out", "unit": "1 Box", "price": 1296 },
+      { "sNo": 172, "name": "2\" 30 Set out", "unit": "1 Box", "price": 3360 },
+      { "sNo": 173, "name": "2\" 40 Set out", "unit": "1 Box", "price": 2880 }
+    ]
+  },
+  {
+    "category": "COLOUR MATCHES",
+    "items": [
+      { "sNo": 174, "name": "Butterfly 8in1", "unit": "1 Box", "price": 65 },
+      { "sNo": 175, "name": "Dhasara 10in1", "unit": "1 Box", "price": 134 },
+      { "sNo": 176, "name": "Superheroes 10in1", "unit": "1 Box", "price": 171 }
+    ]
+  },
+  {
+    "category": "SNAKE TABLETS",
+    "items": [
+      { "sNo": 177, "name": "Serpent Eggs Big", "unit": "1 Box", "price": 15 },
+      { "sNo": 178, "name": "Anaconda", "unit": "1 Box", "price": 54 }
+    ]
+  },
+  {
+    "category": "ROLL CAPS & GUNS",
+    "items": [
+      { "sNo": 179, "name": "Roll Caps", "unit": "1 Box", "price": 116 },
+      { "sNo": 180, "name": "Ring Caps", "unit": "1 Box", "price": 15 },
+      { "sNo": 181, "name": "Metal Roll Cap Gun", "unit": "1 Box", "price": 200 },
+      { "sNo": 182, "name": "Metal Ring Cap Gun", "unit": "1 Box", "price": 320 }
+    ]
+  },
+  {
+    "category": "Gift Boxs",
+    "items": [
+      { "sNo": 183, "name": "Classic 25+ Varieties", "unit": "1 Box", "price": 2700 },
+      { "sNo": 184, "name": "Premium 30+ Varieties", "unit": "1 Box", "price": 3600 },
+      { "sNo": 185, "name": "Elite 40+ Varieties", "unit": "1 Box", "price": 4500 },
+      { "sNo": 186, "name": "Gold 50+ Varieties", "unit": "1 Box", "price": 6300 }
+    ]
+  }
 
-{
-  category: "Kids Special",
-  items: [
-    { sNo: 81, name: "Chitu Put Small (10 Pcs)", unit: "1 Box", price: 25 },
-    { sNo: 82, name: "Kit Kat Colour (10 Pcs)", unit: "1 Box", price: 40 },
-    { sNo: 83, name: "Panda DLX (10 Pcs)", unit: "1 Box", price: 56 },
-    { sNo: 84, name: "Jigarthanda Crackling (3 Pcs)", unit: "1 Box", price: 140 },
-    { sNo: 85, name: "Asarafi Big (5 Pcs)", unit: "1 Box", price: 40 },
-    { sNo: 86, name: "Green & White Showers (5 Pcs)", unit: "1 Box", price: 100 },
-    { sNo: 87, name: "5 in 1 Showers (5 Pcs)", unit: "1 Box", price: 100 },
-    { sNo: 88, name: "Peacock Feather (5 Pcs)", unit: "1 Box", price: 100 },
-    { sNo: 89, name: "Colour Rain (5 Pcs)", unit: "1 Box", price: 100 },
-    { sNo: 90, name: "Teddy Colour Mix (5 Pcs)", unit: "1 Box", price: 280 },
-    { sNo: 91, name: "Photo Flash (5 Pcs)", unit: "1 Box", price: 60 },
-    { sNo: 92, name: "Red Flash (5 Pcs)", unit: "1 Box", price: 80 },
-    { sNo: 93, name: "Power Rangers (5 Pcs)", unit: "1 Box", price: 180 },
-    { sNo: 94, name: "My First Love", unit: "1 Box", price: 130 },
-    { sNo: 95, name: "Tin Showers", unit: "1 Box", price: 120 },
-    { sNo: 96, name: "Butterfly (10 Pcs)", unit: "1 Box", price: 120 },
-    { sNo: 97, name: "Helicopter (5 Pcs)", unit: "1 Box", price: 80 },
-    { sNo: 98, name: "Spinner/ Bambaram (5 Pcs)", unit: "1 Box", price: 90 },
-    { sNo: 99, name: "Shappy / Hiphop", unit: "1 Box", price: 35 },
-    { sNo: 100, name: "Decon Chargers (6 Pcs)", unit: "1 Box", price: 140 },
-    { sNo: 101, name: "White Phoenix (6 Pcs)", unit: "1 Box", price: 140 },
-  ]
-},
-{
-  category: "Fancy Fountains",
-  items: [
-    { sNo: 102, name: "Formula 1 (6 Pcs)", unit: "1 Box", price: 140 },
-    { sNo: 103, name: "Jolly Bobby (3 Pcs)", unit: "1 Box", price: 350 },
-    { sNo: 104, name: "Welcome Show Fountain", unit: "1 Box", price: 300 },
-    { sNo: 105, name: "Emu Egg (2 Pcs)", unit: "1 Box", price: 200 },
-    { sNo: 106, name: "Water Queen", unit: "1 Box", price: 180 },
-    { sNo: 107, name: "Pop Corn Crackling Shower (5 Pcs)", unit: "1 Box", price: 220 },
-    { sNo: 108, name: "Naragasura", unit: "1 Box", price: 250 },
-    { sNo: 109, name: "Indian Fantastic Tree - 3 Step Fountain", unit: "1 Box", price: 375 },
-    { sNo: 110, name: "Ludo King - 4 Step Fountain", unit: "1 Box", price: 375 },
-  ]
-},
-{
-  category: "Fancy Chakkars",
-  items: [
-    { sNo: 111, name: "Jungle Mix (5 Pcs)", unit: "1 Box", price: 280 },
-    { sNo: 112, name: "Sun Flower Wheel (5 Pcs)", unit: "1 Box", price: 85 },
-    { sNo: 113, name: "Whistling Wheel (5 Pcs)", unit: "1 Box", price: 240 },
-    { sNo: 114, name: "Planet Chakkar Crackling (2 Pcs)", unit: "1 Box", price: 180 },
-    { sNo: 115, name: "Motu Patlu (2 Pcs)", unit: "1 Box", price: 200 },
-    { sNo: 116, name: "Wire Chakkar", unit: "1 Box", price: 80 },
-  ]
-},
-{
-  category: "Cartoon",
-  items: [
-    { sNo: 117, name: "Assorted Cartoons", unit: "1 Box", price: 40 },
-    { sNo: 118, name: "Snake Cartoons", unit: "1 Box", price: 40 },
-  ]
-},
-{
-  category: "Money Bomb",
-  items: [
-    { sNo: 119, name: "Money In The Bank (3 Pcs)", unit: "1 Box", price: 200 },
-    { sNo: 120, name: "Rupee Confetti (2 Pcs)", unit: "1 Box", price: 280 },
-  ]
-},
-{
-  category: "Sky Shots",
-  items: [
-    { sNo: 121, name: "Air Rider (5 Pcs)", unit: "1 Box", price: 50 },
-    { sNo: 122, name: "Force Mix (2 Pcs)", unit: "1 Box", price: 70 },
-    { sNo: 123, name: "7 Shot (5 Pcs)", unit: "1 Box", price: 100 },
-    { sNo: 124, name: "Penta Magic (5 Pcs)", unit: "1 Box", price: 140 },
-  ]
-},
-{
-  category: "Aerial Outs / Fancy",
-  items: [
-    { sNo: 125, name: "1¼\" Chotta Aerial Out", unit: "1 Box", price: 40 },
-    { sNo: 126, name: "1\" Lovely Music", unit: "1 Box", price: 140 },
-    { sNo: 127, name: "2\" Aerial Out Single", unit: "1 Box", price: 140 },
-    { sNo: 128, name: "2\" Aerial Out (3 Pcs)", unit: "1 Box", price: 280 },
-    { sNo: 129, name: "3¼\" Aerial Out Single", unit: "1 Box", price: 280 },
-    { sNo: 130, name: "3½\" Aerial Out Single", unit: "1 Box", price: 300 },
-    { sNo: 131, name: "3½\" Try Me (2 Pcs)", unit: "1 Box", price: 800 },
-    { sNo: 132, name: "4\" Aerial Double Ball", unit: "1 Box", price: 450 },
-    { sNo: 133, name: "4\" Aerial Out Lovely (2 Pcs)", unit: "1 Box", price: 850 },
-    { sNo: 134, name: "4\" Aerial Out Nayagara Falls", unit: "1 Box", price: 320 },
-    { sNo: 135, name: "5\" Mega Aerial Out", unit: "1 Box", price: 1000 },
-  ]
-},
-{
-  category: "Repeating Shots",
-  items: [
-    { sNo: 136, name: "12 Shot Red & Green", unit: "1 Box", price: 170 },
-    { sNo: 137, name: "12 Shot Rider", unit: "1 Box", price: 180 },
-    { sNo: 138, name: "12 Shot Crackling", unit: "1 Box", price: 250 },
-    { sNo: 139, name: "15 Shot Multi Colour", unit: "1 Box", price: 270 },
-    { sNo: 140, name: "25 Shot Crackling", unit: "1 Box", price: 200 },
-    { sNo: 141, name: "30 Shot Multi Colour", unit: "1 Box", price: 450 },
-    { sNo: 142, name: "30 Shot Multi Colour & Crackling", unit: "1 Box", price: 550 },
-    { sNo: 143, name: "60 Shot Multi Colour", unit: "1 Box", price: 900 },
-    { sNo: 144, name: "60 Shot Multi Colour & Crackling", unit: "1 Box", price: 1110 },
-    { sNo: 145, name: "120 Shot Multi Colour", unit: "1 Box", price: 1800 },
-    { sNo: 146, name: "120 Shot Multi Colour & Crackling", unit: "1 Box", price: 2100 },
-    { sNo: 147, name: "240 Shot Multi Colour & Crackling", unit: "1 Box", price: 2800 },
-  ]
-},
-{
-  category: "Elite Shots",
-  items: [
-    { sNo: 148, name: "12 Shot Arabian Nights", unit: "1 Box", price: 500 },
-    { sNo: 149, name: "5x5 Green Parrot", unit: "1 Box", price: 550 },
-    { sNo: 150, name: "10 x 10 Showtime", unit: "1 Box", price: 2700 },
-  ]
-},
-{
-  category: "Smoke",
-  items: [
-    { sNo: 151, name: "Multi Colour Smoke (3 Pcs)", unit: "1 Box", price: 180 },
-    { sNo: 152, name: "Smoke Sticks (10 Pcs)", unit: "1 Box", price: 70 },
-    { sNo: 153, name: "Bat & Ball", unit: "1 Box", price: 250 },
-  ]
-},
-{
-  category: "Roll Cap",
-  items: [
-    { sNo: 154, name: "Roll Cap", unit: "1 Box", price: 50 },
-    { sNo: 155, name: "Ring Cap With Gun", unit: "1 Box", price: 250 },
-  ]
-},
-{
-  category: "Colour Matches",
-  items: [
-    { sNo: 156, name: "Flash 2000 - (3 in 1)", unit: "1 Box", price: 80 },
-    { sNo: 157, name: "Butterfly - (8 in 1)", unit: "1 Box", price: 90 },
-    { sNo: 158, name: "Torch - (3 in 1)", unit: "1 Box", price: 100 },
-    { sNo: 159, name: "Dashara - (10 in 1)", unit: "1 Box", price: 200 },
-  ]
-},
-{
-  category: "Snake Tablets",
-  items: [
-    { sNo: 160, name: "Serpant Eggs Big", unit: "1 Box", price: 25 },
-    { sNo: 161, name: "Anaconda", unit: "1 Box", price: 90 },
-  ]
-}
-
-
-
-  // ... Add all further categories and products as in PDF[1].
 ];
 
-// Terms & payment info
-const terms = [
-  "The Price given is Factory Outlet Price - No Discount.",
-  "Quantity Discount: For purchase above ₹10,000 – ₹20,000: 5% Discount.",
-  "For purchase above ₹20,100 and above: 10% Discount.",
-  "GOODS SOLD CANNOT BE TAKEN BACK.",
-  "Price is Ex. SIVAKASI, Transport up to your destination will be extra.",
-  "GST will be applicable as per Govt. Notification.",
-];
+// Display helper: convert category names to Title Case without altering values used for logic
+const formatCategory = (category) => {
+  if (typeof category !== 'string') return category;
+  return category
+    .toLowerCase()
+    .replace(/\b([a-z])/g, (match) => match.toUpperCase());
+};
 
 // Bank & contact info
 const bankInfo = [
-  { label: "Name", value: "PATHMA GURU RAJA A M N" },
-  { label: "A/c Number", value: "34937296503" },
+  { label: "Name", value: "N. ANCHANA SRI" },
+  { label: "A/c Number", value: "41166199012" },
   { label: "Bank Name", value: "STATE BANK OF INDIA" },
   { label: "Branch", value: "SIVAKASI TOWN" },
   { label: "IFSC Code", value: "SBIN0009664" },
-  { label: "GPay & Paytm", value: "97913 70913" },
-  { label: "UPI ID", value: "pathmaguru1999@oksbi" },
+  { label: "GPay & Paytm", value: "74184 45913" },
+  { label: "UPI ID", value: "anjhana2004@oksbi" },
 ];
 const Pricelist = ({ cart, addToCart, removeFromCart }) => {
 
 
 
   return (
+    <> <Maqrquee />
     <div>
+    
         <Container className="my-5">
     <Row className="mb-4 text-center">
       <Col>
-        <h2 className="fw-bold text-danger">Leo Crackers – Full Price List 2024</h2>
+        <h2 className="fw-bold text-danger">Leo Crackers – Full Price List 2025</h2>
         <p className="lead">Retail Supply at <strong>Factory Outlet Price</strong> of Quality Crackers<br />Sivakasi, Tamil Nadu</p>
       </Col>
     </Row>
 {crackerData.map((section, idx) => (
   <Card className="mb-4" key={idx}>
-    <Card.Header className="bg-warning fw-bold">{section.category}</Card.Header>
+    <Card.Header className="bg-warning fw-bold">{formatCategory(section.category)}</Card.Header>
     <Card.Body className="p-0">
-      <Table bordered hover responsive size="sm" className="m-0">
-        <thead>
-          <tr className="text-center" style={{ background: "#ffe4b5" }}>
-            <th style={{ width: "10%" }}>S.No.</th>
-            <th style={{ width: "40%" }}>Product Name</th>
-            <th style={{ width: "15%" }}>Units</th>
-            <th style={{ width: "15%" }}>Price (₹)</th>
-            <th style={{ width: "20%" }}>Add</th>
-          </tr>
-        </thead>
-        <tbody className="text-center py-2 px-2">
-          {section.items?.map((item) => (
-            <tr key={item.sNo}>
-              <td>{item.sNo}</td>
-              <td>{item.name}</td>
-              <td>{item.unit}</td>
-              <td>{item.price}</td>
-              <td>
-                {cart?.[item.sNo] ? (
-                  <div className="d-flex justify-content-center align-items-center">
-                    <button
-                      className="btn btn-outline-danger btn-sm"
-                      onClick={() => removeFromCart(item.sNo)}
-                    >
-                      −
-                    </button>
-                    <span className="mx-3">{cart[item.sNo]?.quantity || 0}</span>
-                    <button
-                      className="btn btn-outline-success btn-sm"
-                      onClick={() => addToCart(item)}
-                    >
-                      +
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => addToCart(item)}
-                  >
-                    Add to Cart
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+    <Table bordered hover responsive size="sm" className="m-0">
+  <thead>
+    <tr className="text-center" style={{ background: "#ffe4b5" }}>
+      <th style={{ width: "10%" }}>S.No.</th>
+      <th style={{ width: "40%" }}>Product Name</th>
+      <th style={{ width: "15%" }}>Units</th>
+      <th style={{ width: "15%" }}>Price (₹)</th>
+      <th style={{ width: "20%" }}>Add</th>
+    </tr>
+  </thead>
+  <tbody className="text-center py-2 px-2">
+    {section.items?.map((item) => (
+      <tr key={item.sNo}>
+        <td>{item.sNo}</td>
+        <td>{item.name}</td>
+        <td>{item.unit}</td>
+        <td>
+          <del className="text-muted me-2">₹{item.price * 2}</del>
+          ₹{item.price}
+        </td>
+        <td>
+          {cart?.[item.sNo] ? (
+            <div className="d-flex justify-content-center align-items-center">
+              <button
+                className="btn btn-outline-danger btn-sm"
+                onClick={() => removeFromCart(item.sNo)}
+              >
+                −
+              </button>
+              <span className="mx-3">{cart[item.sNo]?.quantity || 0}</span>
+              <button
+                className="btn btn-outline-success btn-sm"
+                onClick={() => addToCart(item)}
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <button
+              className="btn btn-primary"
+              onClick={() => addToCart(item)}
+            >
+              Add to Cart
+            </button>
+          )}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</Table>
+
     </Card.Body>
   </Card>
 ))}
@@ -365,10 +404,10 @@ const Pricelist = ({ cart, addToCart, removeFromCart }) => {
         <Card>
           <Card.Header className="bg-info fw-bold text-white">Discounts & Payment Details</Card.Header>
           <Card.Body>
-            {terms.map((term, i) => <li key={i}>{term}</li>)}
+           
             <hr />
             <h5>Bank Details</h5>
-            <Table bordered size="sm">
+            <Table bordered size="sm" className='px-3'>
               <tbody>
                 {bankInfo.map((info, i) => (
                   <tr key={i}>
@@ -379,7 +418,7 @@ const Pricelist = ({ cart, addToCart, removeFromCart }) => {
               </tbody>
             </Table>
             <p>
-              For bulk orders: <strong>74186 28592</strong>, <strong>97913 70913</strong> <br />
+              For bulk orders: <strong>74186 28592</strong>,<br />
               Order via WhatsApp, GPay, Paytm, or Bank Transfer.
             </p>
           </Card.Body>
@@ -387,21 +426,10 @@ const Pricelist = ({ cart, addToCart, removeFromCart }) => {
       </Col>
     </Row>
 
-    <Row>
-      <Col>
-        <Card bg="success" text="white" className="text-center mb-5">
-          <Card.Body>
-            <h5>🎇 Celebrate this festive season with Leo Crackers – Direct from Sivakasi! 🎇</h5>
-            <Button variant="warning" size="lg" className="mt-3">
-              Order Now
-            </Button>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+   
   </Container>
 
-    </div>
+    </div></> 
   )
 }
 

@@ -8,7 +8,7 @@ import Pricelist from './Pricelist';
 import Giftbox from './Pages/Giftbox';
 import Productcard from './Pages/Productcard';
 import { useState } from 'react';
-import CartPage from './Pages/CartPage';
+import CartPage from './Pages/Cartpage';
 import CheckoutPage from './Pages/CheckoutPage';
 import ThankYouPage from './Pages/ThankYouPage';
 
@@ -41,23 +41,43 @@ function App() {
     });
   };
 
-  // Remove a product from cart
+  // Remove a product from cart (decrease quantity by 1)
   const removeFromCart = (productId) => {
+    console.log('removeFromCart called with:', productId);
     setCart(prevCart => {
-      if (!prevCart[productId]) return prevCart;
+      console.log('Current cart before removal:', prevCart);
+      if (!prevCart[productId]) {
+        console.log('Product not found in cart:', productId);
+        return prevCart;
+      }
       if (prevCart[productId].quantity > 1) {
-        return {
+        const newCart = {
           ...prevCart,
           [productId]: {
             ...prevCart[productId],
             quantity: prevCart[productId].quantity - 1,
           },
         };
+        console.log('Decreased quantity, new cart:', newCart);
+        return newCart;
       } else {
         const newCart = { ...prevCart };
         delete newCart[productId];
+        console.log('Removed item completely, new cart:', newCart);
         return newCart;
       }
+    });
+  };
+
+  // Remove all quantity of a product from cart (complete removal)
+  const removeAllFromCart = (productId) => {
+    console.log('removeAllFromCart called with:', productId);
+    setCart(prevCart => {
+      console.log('Current cart before complete removal:', prevCart);
+      const newCart = { ...prevCart };
+      delete newCart[productId];
+      console.log('Removed all quantity, new cart:', newCart);
+      return newCart;
     });
   };
 
@@ -101,7 +121,10 @@ function App() {
             }
           />
           <Route path="/giftbox" element={<Giftbox />} />
-          <Route path="/product" element={<Productcard />} />
+           <Route
+          path="/product"
+          element={<Productcard cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} />}
+        />
           <Route
             path="/cart"
             element={
@@ -109,13 +132,14 @@ function App() {
                 cart={cart}
                 addToCart={addToCart}
                 removeFromCart={removeFromCart}
+                removeAllFromCart={removeAllFromCart}
                 cartCount={cartCount}
               />
             }
           />
 
           <Route path='/checkout' element={<CheckoutPage/>}/>
-          <Route path='thank-you' element={<ThankYouPage/>}/>
+          <Route path='/thank-you' element={<ThankYouPage/>}/>
         </Route>
       </Routes>
     </Router>

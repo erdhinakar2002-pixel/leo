@@ -1,8 +1,8 @@
 import { Navbar, Nav, Container, Form, FormControl, Button, Badge } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaShoppingCart, FaSearch } from 'react-icons/fa';
-import logo from '../../assets/logo.svg';
 import { Link } from 'react-router-dom';
+import logo from "../../../public/assets/leo.png"
 
 const Header = ({ cart, addToCart, removeFromCart }) => {
 const totalItems = Object.values(cart || {}).reduce(
@@ -14,56 +14,75 @@ const totalItems = Object.values(cart || {}).reduce(
 
   return (
     <header className='header'>
-      <Navbar bg="light" expand="lg" className="py-3 shadow-sm header">
-        <Container>
-          {/* Logo */}
-          <LinkContainer to="/">
-            <Navbar.Brand>
-              <img
-                src="src/assets/logo-1.jpg"
-                alt="Kuruvi Crackers Logo"
-                height="40"
-                className="d-inline-block align-top me-2"
-              />
-            </Navbar.Brand>
-          </LinkContainer>
 
-          {/* Navbar Toggler */}
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+       
+  <Navbar bg="light" expand="lg" className="py-1 shadow-sm header">
+  <Container>
+    {/* Logo */}
+    <LinkContainer to="/">
+      <Navbar.Brand>
+      <img src={logo} alt="logo" width="100" className="d-inline-block align-top me-2" />
+      </Navbar.Brand>
+    </LinkContainer>
 
-          <Navbar.Collapse id="basic-navbar-nav">
-            {/* Links */}
-            <Nav className="mx-auto">
-              <LinkContainer to="/"><Nav.Link>Home</Nav.Link></LinkContainer>
-              <LinkContainer to="/product"><Nav.Link>Product</Nav.Link></LinkContainer>
-              <LinkContainer to="/giftbox"><Nav.Link>Giftbox</Nav.Link></LinkContainer>
-              <LinkContainer to="/price"><Nav.Link>Pricelist</Nav.Link></LinkContainer>
-              <LinkContainer to="/aboutus"><Nav.Link>About Us</Nav.Link></LinkContainer>
-            </Nav>
+    {/* Cart icon for mobile (outside toggle, always visible) */}
+    <Nav className="d-lg-none">
+      <LinkContainer to="/cart">
+        <Nav.Link className="position-relative text-light fw-bold">
+          <FaShoppingCart size={22} />
+          {totalItems > 0 && (
+            <span
+              className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark"
+              style={{ fontSize: "0.7rem" }}
+            >
+              {totalItems}
+            </span>
+          )}
+        </Nav.Link>
+      </LinkContainer>
+    </Nav>
 
-            {/* Search + Cart */}
-            <Nav className="ms-auto d-flex align-items-center">
-           
+    {/* Toggle for mobile */}
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
-              <LinkContainer to="/cart">
-                <Nav.Link as={Link} to="/cart" className="position-relative">
-                  <FaShoppingCart size={22} />
-                  {totalItems > 0 && (
-                    <span
-                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                      style={{ fontSize: "0.7rem" }}
-                    >
-                      {totalItems}
-                    </span>
-                  )}
-                </Nav.Link>
+    {/* Collapsible links */}
+    <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="mx-auto">
+        <LinkContainer to="/">
+          <Nav.Link className="text-white fw-semibold">Home</Nav.Link>
+        </LinkContainer>
+        <LinkContainer to="/product">
+          <Nav.Link className="text-white fw-semibold">Product</Nav.Link>
+        </LinkContainer>
+        <LinkContainer to="/price">
+          <Nav.Link className="text-white fw-semibold">Pricelist</Nav.Link>
+        </LinkContainer>
+        <LinkContainer to="/aboutus">
+          <Nav.Link className="text-white fw-semibold">About Us</Nav.Link>
+        </LinkContainer>
+      </Nav>
+
+      {/* Cart icon for desktop (inside collapse, right-aligned) */}
+      <Nav className="ms-lg-auto d-none d-lg-flex">
+        <LinkContainer to="/cart">
+          <Nav.Link className="position-relative text-light fw-bold">
+            <FaShoppingCart size={22} />
+            {totalItems > 0 && (
+              <span
+                className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark"
+                style={{ fontSize: "0.7rem" }}
+              >
+                {totalItems}
+              </span>
+            )}
+          </Nav.Link>
+        </LinkContainer>
+      </Nav>
+    </Navbar.Collapse>
+  </Container>
+</Navbar>
 
 
-              </LinkContainer>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
     </header>
   );
 };

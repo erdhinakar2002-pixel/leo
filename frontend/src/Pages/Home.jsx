@@ -1,468 +1,225 @@
-import Card from 'react-bootstrap/Card';
-import Maqrquee from './Marquee'
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import React from 'react';
+import { Container, Row, Col, Card, Carousel } from 'react-bootstrap';
 import { FaUsers, FaBoxOpen, FaStar, FaTruck } from 'react-icons/fa';
-import React, { useState } from 'react';
-import { Carousel, Card as BootstrapCard } from 'react-bootstrap';
-import { Image } from 'react-bootstrap';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
+import Maqrquee from './Marquee';
+
+// Swiper CSS
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
+
 const Home = ({ cart, addToCart, removeFromCart }) => {
+  // --- Data for Banners and Info Cards ---
+  const carouselData = [
+    { id: 1, img: '/public/assets/banner4.jpeg' },
+    { id: 2, img: '/public/assets/banner1.jpeg' },
+    { id: 3, img: '/public/assets/banner2.jpeg' },
+    { id: 4, img: '/public/assets/banner3.jpeg' },
+  ];
 
-
-
-  const data = [
-    { icon: <FaUsers size={40} />, title: '3K+', subtitle: 'Customers' },
-    { icon: <FaBoxOpen size={40} />, title: '400+', subtitle: 'Products' },
+  const infoData = [
+    { icon: <FaUsers size={40} />, title: '1K+', subtitle: 'Customers' },
+    { icon: <FaBoxOpen size={40} />, title: '150+', subtitle: 'Products' },
     { icon: <FaStar size={40} />, title: '10+', subtitle: 'Brands' },
     { icon: <FaTruck size={40} />, title: 'Home', subtitle: 'Delivery' },
   ];
 
- 
-
-const Cracker = [
-  { id: 1, img: 'src/assets/1.jpg', name: 'Atom Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 2, img: 'src/assets/2.jpg', name: 'Flower Pots', title: 'RS:50', text: 'RS:120' },
-  { id: 3, img: 'src/assets/3.jpg', name: 'Sparklers', title: 'RS:50', text: 'RS:120' },
-  { id: 4, img: 'src/assets/4.jpg', name: 'Ground Chakra', title: 'RS:50', text: 'RS:120' },
-  { id: 5, img: 'src/assets/5.jpg', name: 'Rockets', title: 'RS:50', text: 'RS:120' },
-  { id: 6, img: 'src/assets/1.jpg', name: 'Bijili Crackers', title: 'RS:50', text: 'RS:120' },
-  { id: 7, img: 'src/assets/2.jpg', name: 'Deluxe Atom Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 8, img: 'src/assets/3.jpg', name: 'Colorful Sparklers', title: 'RS:50', text: 'RS:120' },
-  { id: 9, img: 'src/assets/1.jpg', name: '7 Shots', title: 'RS:50', text: 'RS:120' },
-  { id: 10, img: 'src/assets/1.jpg', name: 'Twinkling Star', title: 'RS:50', text: 'RS:120' },
-];
-
-const Cracker2 = [
-  { id: 11, img: 'src/assets/1.jpg', name: 'Lakshmi Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 12, img: 'src/assets/2.jpg', name: 'Hydrogen Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 13, img: 'src/assets/3.jpg', name: 'Bullet Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 14, img: 'src/assets/4.jpg', name: 'Thunder Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 15, img: 'src/assets/5.jpg', name: 'Classic Rocket', title: 'RS:50', text: 'RS:120' },
-  { id: 16, img: 'src/assets/1.jpg', name: 'Garland Crackers', title: 'RS:50', text: 'RS:120' },
-  { id: 17, img: 'src/assets/2.jpg', name: 'Big Chakkar', title: 'RS:50', text: 'RS:120' },
-  { id: 18, img: 'src/assets/3.jpg', name: 'Small Chakkar', title: 'RS:50', text: 'RS:120' },
-  { id: 19, img: 'src/assets/1.jpg', name: 'Single Shot', title: 'RS:50', text: 'RS:120' },
-  { id: 20, img: 'src/assets/1.jpg', name: 'Sky Shot', title: 'RS:50', text: 'RS:120' },
-];
-
-const Cracker3 = [
-  { id: 21, img: 'src/assets/1.jpg', name: 'Deluxe Garland', title: 'RS:50', text: 'RS:120' },
-  { id: 22, img: 'src/assets/2.jpg', name: 'Hydro Rocket', title: 'RS:50', text: 'RS:120' },
-  { id: 23, img: 'src/assets/3.jpg', name: 'Color Matches', title: 'RS:50', text: 'RS:120' },
-  { id: 24, img: 'src/assets/4.jpg', name: 'Deluxe Rocket', title: 'RS:50', text: 'RS:120' },
-  { id: 25, img: 'src/assets/5.jpg', name: 'Super Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 26, img: 'src/assets/1.jpg', name: 'Color Fountain', title: 'RS:50', text: 'RS:120' },
-  { id: 27, img: 'src/assets/2.jpg', name: 'Magic Shots', title: 'RS:50', text: 'RS:120' },
-  { id: 28, img: 'src/assets/3.jpg', name: 'Deluxe Bijili', title: 'RS:50', text: 'RS:120' },
-  { id: 29, img: 'src/assets/1.jpg', name: 'Rocket Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 30, img: 'src/assets/1.jpg', name: 'Festival Crackers Pack', title: 'RS:50', text: 'RS:120' },
-];
-
-const Cracker4 = [
-  { id: 31, img: 'src/assets/1.jpg', name: 'Fancy Rocket', title: 'RS:50', text: 'RS:120' },
-  { id: 32, img: 'src/assets/2.jpg', name: 'Deluxe Sky Shot', title: 'RS:50', text: 'RS:120' },
-  { id: 33, img: 'src/assets/3.jpg', name: 'Kids Pop Pops', title: 'RS:50', text: 'RS:120' },
-  { id: 34, img: 'src/assets/4.jpg', name: 'Electric Crackers', title: 'RS:50', text: 'RS:120' },
-  { id: 35, img: 'src/assets/5.jpg', name: 'Peacock Fountain', title: 'RS:50', text: 'RS:120' },
-  { id: 36, img: 'src/assets/1.jpg', name: 'Classic Garland', title: 'RS:50', text: 'RS:120' },
-  { id: 37, img: 'src/assets/2.jpg', name: 'Deluxe Thunder Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 38, img: 'src/assets/3.jpg', name: 'Red Sparklers', title: 'RS:50', text: 'RS:120' },
-  { id: 39, img: 'src/assets/1.jpg', name: 'Blue Sparklers', title: 'RS:50', text: 'RS:120' },
-  { id: 40, img: 'src/assets/1.jpg', name: 'Green Sparklers', title: 'RS:50', text: 'RS:120' },
-];
-
-const Cracker5 = [
-  { id: 41, img: 'src/assets/1.jpg', name: 'Mega Rocket', title: 'RS:50', text: 'RS:120' },
-  { id: 42, img: 'src/assets/2.jpg', name: 'Double Shots', title: 'RS:50', text: 'RS:120' },
-  { id: 43, img: 'src/assets/3.jpg', name: 'Triple Shots', title: 'RS:50', text: 'RS:120' },
-  { id: 44, img: 'src/assets/4.jpg', name: 'Whistling Rocket', title: 'RS:50', text: 'RS:120' },
-  { id: 45, img: 'src/assets/5.jpg', name: 'Ground Flower', title: 'RS:50', text: 'RS:120' },
-  { id: 46, img: 'src/assets/1.jpg', name: 'Disco Crackers', title: 'RS:50', text: 'RS:120' },
-  { id: 47, img: 'src/assets/2.jpg', name: 'Color Bomb', title: 'RS:50', text: 'RS:120' },
-  { id: 48, img: 'src/assets/3.jpg', name: 'Ganga Jamuna Fountain', title: 'RS:50', text: 'RS:120' },
-  { id: 49, img: 'src/assets/1.jpg', name: 'Deluxe Peacock', title: 'RS:50', text: 'RS:120' },
-  { id: 50, img: 'src/assets/1.jpg', name: 'Grand Finale Pack', title: 'RS:50', text: 'RS:120' },
-];
-
+  // --- Helper function to transform your product data ---
+  // This adds a 'price' number and a default 'unit'
+  const transformProduct = (product) => ({
+    ...product,
+    price: parseInt(product.title.replace(/\D/g, ''), 10) || 0,
+    unit: '1 Pkt', // You can set a default unit here
+    img: product.img, // Use 'img' to match the new card's prop
+  });
+  
+  // --- Restructured Product Data ---
+  // All your cracker data is now in one place, organized by sections.
+  const crackerSections = [
+    {
+      title: "Featured Products",
+      items: [
+        { id: 1, name: "4\" Ganesh Mega Dlx Crackers",  title: 'RS:50' ,img: "public/assets/2 sound.png"},
+        { id: 2, name: "4\" Gold Lakshmi Crackers",  title: 'RS:53', img: "public/assets/3 sound.png" },
+        { id: 3, name: "4\" Dlx Lakshmi Crackers",  title: 'RS:101', img: "public/assets/lakshmi.png"},
+        { id: 4, name: "4\" Lakshmi Crackers",  title: 'RS:29', img: "public/assets/gold lakshmi.png"},
+        { id: 5, name: "3 1/2\" Lakshmi Crackers",  title: 'RS:22', img: "public/assets/lakshmi.png" },
+        { id: 6, name: "2 3/3\" Kuruvi Crackers",  title: 'RS:29', img: "public/assets/kuruvi.png"},
+        { id: 7, name: "4\" Kuruvi Crackers",  title: 'RS:367', img: "public/assets/kuruvi.png" },
+        { id: 8, name: "5\" Hulk Crackers",  title: 'RS:115', img: "public/assets/2 sound.png"},
+        { id: 9, name: "2 Sound Crackers",  title: 'RS:58', img: "public/assets/3 sound.png"  },
+        { id: 10, name: "3 Sound Crackers",  title: 'RS:197', img: "public/assets/3 sound.png" }
+      ].map(transformProduct),
+    },
+    {
+      title: "Popular Choices",
+      items: [
+        { id: 11, name: "7 cm Electric Sparklers",  title: 'RS:29', img: "public/assets/10cm electric.png" },
+      { id: 12, name: "7 cm Colour Sparklers",  title: 'RS:17', img: "public/assets/7cm colour.png" },
+      { id: 13, name: "7 cm Green Sparklers",  title: 'RS:46', img: "public/assets/10cm green.png" },
+      { id: 14, name: "7 cm Red Sparklers",  title: 'RS:24', img: "public/assets/10cm red.png" },
+      { id: 15, name: "10 cm Electric Sparklers",  title: 'RS:26', img: "public/assets/15cm electric.png" },
+      { id: 16, name: "10 cm Colour Sparklers",  title: 'RS:30', img: "public/assets/10cm colour.png" },
+      { id: 17, name: "10 cm Green Sparklers",  title: 'RS:35', img: "public/assets/10cm green.png"  },
+      { id: 18, name: "10 cm Red Sparklers",  title: 'RS:39', img: "public/assets/10cm red.png" },
+      { id: 19, name: "Rainbow Sparklers (50 pcs)",  title: 'RS:211', img: "public/assets/15cm electric.png" },
+      { id: 20, name: "15 cm Electric Sparklers",  title: 'RS:70', img: "public/assets/10cm colour.png" },
+      ].map(transformProduct),
+    },
+    {
+      title: "New Arrivals",
+      items: [
+        { id: 21, name: "Hayagrivar Flowerpots Big (10 pcs)", title:'Rs:103', img: "/public/assets/arabian.png" },
+        { id: 22, name: "Hayagrivar Flowerpots Special (10 pcs)", title:'Rs:132', img: "/public/assets/saxony.png" },
+        { id: 23, name: "Hayagrivar Flowerpots Giant (10 pcs)", title:'Rs:199', img: "/public/assets/welcome.png" },
+        { id: 24, name: "Hayagrivar Flowerpots Colour Koti (10 pcs)", title:'Rs:300', img: "/public/assets/emu.png" },
+        { id: 25, name: "Varshini Colour Koti Pink (10 pcs)", title:'Rs:600', img: "/public/assets/waterqueen.png" },
+        { id: 26, name: "Metro Colour Koti DLX (10 pcs)", title:'Rs:1080', img: "/public/assets/papcorn.png" },
+        { id: 27, name: "Metro Mega Colour Koti Super DLX (10 pcs)", title:'Rs:840', img: "/public/assets/naragasura-1.png" },
+        { id: 28, name: "Lassi (5 pcs)", title:'Rs:156', img: "/public/assets/arabian.png" },
+        { id: 29, name: "Tricolour Pots (5 pcs)", title:'Rs:348', img: "/public/assets/waterqueen.png" },
+        { id: 30, name: "Mayajal 5 in 1 (5 pcs)", title:'Rs:696', img: "/public/assets/chitu.png" },
+      ].map(transformProduct),
+    },
+    // Add other sections (Cracker4, Cracker5) here in the same format
+  ];
 
   return (
     <div>
       <Maqrquee />
 
-      <section className='main'>
-        <div className='banner-section'>
-          <Container className='py-5'><Row className='py-5 my-5'>
-            <Col md={6} className="">
-              <div className='banner'>
-                <h1>LEO CRACKERS</h1>
-                <h3>SPARK. SHINE. SMILE</h3>
-                <p className='text-center'>Premier provider of Sivakasi's finest fireworks at unbeatable prices, sourced directly from reputable manufacturers. Enjoy factory prices with guaranteed quality.</p>
-              </div></Col>
-            <Col md={6} className="">
-              <Row className='py-5 my-5'>
-                {data.map((item, index) => (
-                  <Col md={6} className="mb-4" key={index}>
-                    <Card className="text-center text-white bg-none custom-card h-100">
-                      <Card.Body>
-                        <div className="mb-3">{item.icon}</div>
-                        <Card.Title className="fw-bold fs-3">{item.title}</Card.Title>
-                        <Card.Text>{item.subtitle}</Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            </Col>
+      {/* --- Hero Carousel --- */}
+      <Carousel interval={5000} className="hero-carousel" style={{ height: '500px', overflow: 'hidden', marginBottom: '2rem' }}>
+        {carouselData.map((item) => (
+          <Carousel.Item key={item.id}>
+            <img
+              className="d-block w-100"
+              src={item.img}
+              alt={`Slide ${item.id}`}
+              style={{ height: '500px', objectFit: 'cover' }}
+            />
+          </Carousel.Item>
+        ))}
+      </Carousel>
+
+      {/* --- Info Banner Section --- */}
+      <div className='banner-section'>
+        <Container>
+          <Row>
+            {infoData.map((item, index) => (
+              <Col md={3} className="mb-4" key={index}>
+                <Card className="text-center text-white bg-none custom-card">
+                  <Card.Body>
+                    <div className="mb-3">{item.icon}</div>
+                    <Card.Title className="fw-bold fs-3">{item.title}</Card.Title>
+                    <Card.Text className='card-text fs-5 fw-semibold'>{item.subtitle}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
           </Row>
-          </Container></div>
-      </section>
-
-
-
-
-
-      <section style={{ background: '#fff', fontFamily: 'sans-serif', padding: '2rem 0' }}>
-        <Container>
-          <h2 className="fw-bold mb-4 text-center" style={{ color: '#222' }}>Trusted By Teams Around The World.</h2>
-          <Swiper
-            loop={true}
-            autoplay={{ delay: 4000, disableOnInteraction: false }}
-            slidesPerView={1}
-            spaceBetween={30}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 3 },
-              1024: { slidesPerView: 5 },
-            }}
-            navigation
-            modules={[Autoplay, Navigation]}
-            style={{ paddingBottom: '2rem' }}
-          >
-            {Cracker.map((t, idx) => (
-              <SwiperSlide key={idx}>
-                <div className="bg-white border border-secondary rounded-3 shadow-sm p-3 p-md-4 text-start h-100 d-flex flex-column">
-                  <div className="align-items-center mb-3">
-                    <Image src={t.img} alt={t.name} width="100%" className="me-3 rounded-1" />
-                    <p className="mb-0 fw-bold text-center" style={{ fontSize: '1rem' }}>{t.name}</p>
-                    <div className='d-flex justify-content-center'>
-                      <p className="mb-0 text-muted text-center" style={{ fontSize: '1rem' }}>{t.title}</p>
-                      <p className="mt-1 text-decoration-line-through mx-1" style={{ fontSize: '0.7rem', color: '#555' }}>{t.text}</p>
-                    </div>
-                  </div>
-                  {cart[t.id] ? (
-                    <div className="d-flex justify-content-center align-items-center">
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => removeFromCart(t.id)}
-                      >
-                        −
-                      </button>
-                      <span className="mx-3">{cart[t.id].quantity}</span>
-                      <button
-                        className="btn btn-outline-success btn-sm"
-                        onClick={() => addToCart(t)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  ) : (
-                    <button className="btn btn-primary" onClick={() => addToCart(t)}>
-                      Add to Cart
-                    </button>
-                  )}
-
-
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
         </Container>
-      </section>
+      </div>
 
-      <section style={{ background: '#fff', fontFamily: 'sans-serif', padding: '2rem 0' }}>
-        <Container>
-          <h2 className="fw-bold mb-4 text-center" style={{ color: '#222' }}>Trusted By Teams Around The World.</h2>
-          <Swiper
-            loop={true}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            slidesPerView={1}
-            spaceBetween={20}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 3 },
-              1024: { slidesPerView: 5 },
-            }}
-            navigation
-            modules={[Autoplay, Navigation]}
-            style={{ paddingBottom: '2rem' }}
-          >
-            {Cracker2.map((t, idx) => (
-              <SwiperSlide key={idx}>
-                <div className="bg-white border border-secondary rounded-3 shadow-sm p-3 p-md-4 text-start h-100 d-flex flex-column">
-                  <div className="align-items-center mb-3">
-                    <Image src={t.img} alt={t.name} width="100%" className="me-3 rounded-1" />
-                    <p className="mb-0 fw-bold text-center" style={{ fontSize: '1rem' }}>{t.name}</p>
-                    <div className='d-flex justify-content-center'>
-                      <p className="mb-0 text-muted text-center" style={{ fontSize: '1rem' }}>{t.title}</p>
-                      <p className="mt-1 text-decoration-line-through mx-1" style={{ fontSize: '0.7rem', color: '#555' }}>{t.text}</p>
+      {/* --- Dynamic Product Sections with Swiper --- */}
+      {crackerSections.map((section, index) => (
+        <section key={index} style={{ background: '#fff', fontFamily: 'sans-serif', padding: '2rem 0' }}>
+          <Container>
+            <h2 className="fw-bold mb-4 text-center" style={{ color: '#222' }}>
+              {section.title}
+            </h2>
+            <Swiper
+              loop={true}
+              autoplay={{ delay: 4000 + index * 500, disableOnInteraction: false }}
+              slidesPerView={1}
+              spaceBetween={30}
+              breakpoints={{
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 3 },
+                1024: { slidesPerView: 4 },
+              }}
+              navigation
+              modules={[Autoplay, Navigation]}
+              style={{ paddingBottom: '2rem' }}
+            >
+              {section.items.map((product) => (
+                <SwiperSlide key={product.id}>
+                  <Card className="h-100 shadow-sm product-card">
+                    <div className="position-relative">
+                      <Card.Img
+                        variant="top"
+                        src={product.img}
+                        onError={(e) => {
+                          e.target.src = `https://via.placeholder.com/200x200/FF6B6B/FFFFFF?text=No+Img`;
+                        }}
+                        style={{ height: '200px', objectFit: 'cover' }}
+                      />
+                      <div className="position-absolute top-0 start-0 bg-warning text-dark px-2 py-1 small">
+                        {section.title}
+                      </div>
                     </div>
-                  </div>
-                  {cart[t.id] ? (
-                    <div className="d-flex justify-content-center align-items-center">
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => removeFromCart(t.id)}
-                      >
-                        −
-                      </button>
-                      <span className="mx-3">{cart[t.id].quantity}</span>
-                      <button
-                        className="btn btn-outline-success btn-sm"
-                        onClick={() => addToCart(t)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  ) : (
-                    <button className="btn btn-primary" onClick={() => addToCart(t)}>
-                      Add to Cart
-                    </button>
-                  )}
+                    <Card.Body className="d-flex flex-column text-center">
+                      <Card.Title className="h6 mb-2" style={{ minHeight: '48px' }}>
+                        {product.name}
+                      </Card.Title>
+                      <Card.Text className="mb-2">
+                        <small className="text-muted">Unit: {product.unit}</small>
+                      </Card.Text>
 
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Container>
-      </section>
-      <section style={{ background: '#fff', fontFamily: 'sans-serif', padding: '2rem 0' }}>
-        <Container>
-          <h2 className="fw-bold mb-4 text-center" style={{ color: '#222' }}>Trusted By Teams Around The World.</h2>
-          <Swiper
-            loop={true}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            slidesPerView={1}
-            spaceBetween={20}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 3 },
-              1024: { slidesPerView: 5 },
-            }}
-            navigation
-            modules={[Autoplay, Navigation]}
-            style={{ paddingBottom: '2rem' }}
-          >
-            {Cracker3.map((t, idx) => (
-              <SwiperSlide key={idx}>
-                <div className="bg-white border border-secondary rounded-3 shadow-sm p-3 p-md-4 text-start h-100 d-flex flex-column">
-                  <div className="align-items-center mb-3">
-                    <Image src={t.img} alt={t.name} width="100%" className="me-3 rounded-1" />
-                    <p className="mb-0 fw-bold text-center" style={{ fontSize: '1rem' }}>{t.name}</p>
-                    <div className='d-flex justify-content-center'>
-                      <p className="mb-0 text-muted text-center" style={{ fontSize: '1rem' }}>{t.title}</p>
-                      <p className="mt-1 text-decoration-line-through mx-1" style={{ fontSize: '0.7rem', color: '#555' }}>{t.text}</p>
-                    </div>
-                  </div>
-                  {cart[t.id] ? (
-                    <div className="d-flex justify-content-center align-items-center">
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => removeFromCart(t.id)}
-                      >
-                        −
-                      </button>
-                      <span className="mx-3">{cart[t.id].quantity}</span>
-                      <button
-                        className="btn btn-outline-success btn-sm"
-                        onClick={() => addToCart(t)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  ) : (
-                    <button className="btn btn-primary" onClick={() => addToCart(t)}>
-                      Add to Cart
-                    </button>
-                  )}
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Container>
-      </section>
-      <section style={{ background: '#fff', fontFamily: 'sans-serif', padding: '2rem 0' }}>
-        <Container>
-          <h2 className="fw-bold mb-4 text-center" style={{ color: '#222' }}>Trusted By Teams Around The World.</h2>
-          <Swiper
-            loop={true}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            slidesPerView={1}
-            spaceBetween={20}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 3 },
-              1024: { slidesPerView: 5 },
-            }}
-            navigation
-            modules={[Autoplay, Navigation]}
-            style={{ paddingBottom: '2rem' }}
-          >
-            {Cracker4.map((t, idx) => (
-              <SwiperSlide key={idx}>
-                <div className="bg-white border border-secondary rounded-3 shadow-sm p-3 p-md-4 text-start h-100 d-flex flex-column">
-                  <div className="align-items-center mb-3">
-                    <Image src={t.img} alt={t.name} width="100%" className="me-3 rounded-1" />
-                    <p className="mb-0 fw-bold text-center" style={{ fontSize: '1rem' }}>{t.name}</p>
-                    <div className='d-flex justify-content-center'>
-                      <p className="mb-0 text-muted text-center" style={{ fontSize: '1rem' }}>{t.title}</p>
-                      <p className="mt-1 text-decoration-line-through mx-1" style={{ fontSize: '0.7rem', color: '#555' }}>{t.text}</p>
-                    </div>
-                  </div>
-                  {cart[t.id] ? (
-                    <div className="d-flex justify-content-center align-items-center">
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => removeFromCart(t.id)}
-                      >
-                        −
-                      </button>
-                      <span className="mx-3">{cart[t.id].quantity}</span>
-                      <button
-                        className="btn btn-outline-success btn-sm"
-                        onClick={() => addToCart(t)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  ) : (
-                    <button className="btn btn-primary" onClick={() => addToCart(t)}>
-                      Add to Cart
-                    </button>
-                  )}
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Container>
-      </section>
-      <section style={{ background: '#fff', fontFamily: 'sans-serif', padding: '2rem 0' }}>
-        <Container>
-          <h2 className="fw-bold mb-4 text-center" style={{ color: '#222' }}>Trusted By Teams Around The World.</h2>
-          <Swiper
-            loop={true}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            slidesPerView={1}
-            spaceBetween={20}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 3 },
-              1024: { slidesPerView: 5 },
-            }}
-            navigation
-            modules={[Autoplay, Navigation]}
-            style={{ paddingBottom: '2rem' }}
-          >
-            {Cracker5.map((t, idx) => (
-              <SwiperSlide key={idx}>
-                <div className="bg-white border border-secondary rounded-3 shadow-sm p-3 p-md-4 text-start h-100 d-flex flex-column">
-                  <div className="align-items-center mb-3">
-                    <Image src={t.img} alt={t.name} width="100%" className="me-3 rounded-1" />
-                    <p className="mb-0 fw-bold text-center" style={{ fontSize: '1rem' }}>{t.name}</p>
-                    <div className='d-flex justify-content-center'>
-                      <p className="mb-0 text-muted text-center" style={{ fontSize: '1rem' }}>{t.title}</p>
-                      <p className="mt-1 text-decoration-line-through mx-1" style={{ fontSize: '0.7rem', color: '#555' }}>{t.text}</p>
-                    </div>
-                  </div>
-                  {cart[t.id] ? (
-                    <div className="d-flex justify-content-center align-items-center">
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => removeFromCart(t.id)}
-                      >
-                        −
-                      </button>
-                      <span className="mx-3">{cart[t.id].quantity}</span>
-                      <button
-                        className="btn btn-outline-success btn-sm"
-                        onClick={() => addToCart(t)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  ) : (
-                    <button className="btn btn-primary" onClick={() => addToCart(t)}>
-                      Add to Cart
-                    </button>
-                  )}
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Container>
-      </section>
-      <section style={{ background: '#fff', fontFamily: 'sans-serif', padding: '2rem 0' }}>
-        <Container>
-          <h2 className="fw-bold mb-4 text-center" style={{ color: '#222' }}>Trusted By Teams Around The World.</h2>
-          <Swiper
-            loop={true}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            slidesPerView={1}
-            spaceBetween={20}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 3 },
-              1024: { slidesPerView: 5 },
-            }}
-            navigation
-            modules={[Autoplay, Navigation]}
-            style={{ paddingBottom: '2rem' }}
-          >
-            {Cracker5.map((t, idx) => (
-              <SwiperSlide key={idx}>
-                <div className="bg-white border border-secondary rounded-3 shadow-sm p-3 p-md-4 text-start h-100 d-flex flex-column">
-                  <div className="align-items-center mb-3">
-                    <Image src={t.img} alt={t.name} width="100%" className="me-3 rounded-1" />
-                    <p className="mb-0 fw-bold text-center" style={{ fontSize: '1rem' }}>{t.name}</p>
-                    <div className='d-flex justify-content-center'>
-                      <p className="mb-0 text-muted text-center" style={{ fontSize: '1rem' }}>{t.title}</p>
-                      <p className="mt-1 text-decoration-line-through mx-1" style={{ fontSize: '0.7rem', color: '#555' }}>{t.text}</p>
-                    </div>
-                  </div>
-                  {cart[t.id] ? (
-                    <div className="d-flex justify-content-center align-items-center">
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => removeFromCart(t.id)}
-                      >
-                        −
-                      </button>
-                      <span className="mx-3">{cart[t.id].quantity}</span>
-                      <button
-                        className="btn btn-outline-success btn-sm"
-                        onClick={() => addToCart(t)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  ) : (
-                    <button className="btn btn-primary" onClick={() => addToCart(t)}>
-                      Add to Cart
-                    </button>
-                  )}
+                      <Card.Text className="mb-3">
+                        <del className="text-muted me-2">₹{product.price * 2}</del>
+                        <strong className="text-success fs-5">₹{product.price}</strong>
+                      </Card.Text>
 
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Container>
-      </section>
-
+                      <div className="mt-auto">
+                        {cart?.[product.id] ? (
+                          <div className="d-flex justify-content-center align-items-center">
+                            <button
+                              className="btn btn-outline-danger btn-sm"
+                              onClick={() => removeFromCart(product.id)}
+                            >
+                              −
+                            </button>
+                            <span className="mx-3">{cart[product.id].quantity}</span>
+                            <button
+                              className="btn btn-outline-success btn-sm"
+                              onClick={() => addToCart(product)}
+                            >
+                              +
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            className="btn btn-primary w-100"
+                            onClick={() => addToCart(product)}
+                          >
+                            Add to Cart
+                          </button>
+                        )}
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </Container>
+        </section>
+      ))}
+      
+      {/* --- Add CSS for card hover effect --- */}
+      <style jsx global>{`
+        .product-card {
+          transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .product-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+      `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
