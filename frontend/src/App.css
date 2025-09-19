@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+.marquee-container {
+  overflow: hidden; /* Hide content outside the container */
+  white-space: nowrap; /* Prevent text from wrapping */
+  box-sizing: border-box; /* Include padding/border in element's total width/height */
+  background-color: #f8d7da; /* Example background */
+  color: #721c24; /* Example text color */
+  padding: 10px 0;
+  border-bottom: 1px solid #f5c6cb;
+}
+
+.form-control:focus{
+  box-shadow: none !important;
+}
+
+.marquee-content {
+  display: inline-block; /* Essential for horizontal scrolling */
+  padding-left: 100%; /* Start the content off-screen to the right */
+  animation: marquee-scroll 15s linear infinite; /* Adjust duration for speed */
+}
+
+/* Pause on hover */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Keyframes for the scrolling animation */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%); /* Start at original position */
+  }
+  100% {
+    transform: translateX(-100%); /* Move left by 100% of its own width */
+  }
+}
+.custom-card {
+  background: linear-gradient(145deg, #4a00e0, #8e2de2);
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+.cta-button {
+  background: linear-gradient(220deg, #457AFF 0%, #1E59FF 60.16%);
+  color: #F4F4F4;
+  border: 1px solid transparent;
+  box-shadow: 0 0 6px 2px rgba(0, 61, 255, 0.12);
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 1s;
+}
+.cta-button:hover {
+  box-shadow: 0 0 12px 4px rgba(30, 89, 255, 0.18);
+}
+.swiper-button-prev:after { display: none; }
+.swiper-button-next::after { display: none; }
+
+.banner-section{
+  background-image: url("/src/assets/banner.png");
+  color: white;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+nav.py-3.shadow-sm.header.navbar.navbar-expand-lg.navbar-light {
+    background: #de2a12;
+}
+
+a.text-light.fw-bold.active.nav-link.active {
+    text-decoration: underline;
+}
